@@ -1,0 +1,10 @@
+../Src/main.c:15:5:main	5
+../Src/main.c:63:6:GPIO_Init	1
+../Src/main.c:86:6:ADC_Init	1
+../Src/main.c:95:10:ADC_Read	2
+../Src/main.c:103:7:Read_Temperature	1
+../Src/main.c:112:6:LCD_Init	1
+../Src/main.c:125:6:LCD_Command	1
+../Src/main.c:140:6:LCD_Char	1
+../Src/main.c:155:6:LCD_String	2
+../Src/main.c:163:6:Delay	2
