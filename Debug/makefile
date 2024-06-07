@@ -60,7 +60,7 @@ main-build: smart_stove_monitor.elf secondary-outputs
 
 # Tool invocations
 smart_stove_monitor.elf smart_stove_monitor.map: $(OBJS) $(USER_OBJS) /Users/amberyang/STM32CubeIDE/workspace_1.14.0/smart_stove_monitor/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "smart_stove_monitor.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/amberyang/STM32CubeIDE/workspace_1.14.0/smart_stove_monitor/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="smart_stove_monitor.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "smart_stove_monitor.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/amberyang/STM32CubeIDE/workspace_1.14.0/smart_stove_monitor/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="smart_stove_monitor.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
