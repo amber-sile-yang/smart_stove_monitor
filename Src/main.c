@@ -19,11 +19,7 @@ int main(void) {
 
     while(1){
 
-        // Toggle PA1 to verify if the main loop is running
-        GPIOA->ODR ^= GPIO_ODR_ODR_1; // Toggle PA1
-        timer_delay_ms(1000); // 1 second delay
-
-        // Read ADC and temperature value and print it using SWV
+        // Read ADC and value and print it using SWV
         uint16_t adc_value = read_ADC();
         printf("ADC Value before interrupt is triggered: %u\n", adc_value);
 
@@ -113,8 +109,8 @@ void start_ADC_conversion(void) {
 // ADC watchdog (AWD) initialization
 void ADC_watchdog_init(void) {
 
-    // Set high threshold value corresponding to 35°C
-    ADC1 -> HTR = 1160;
+    // Set high threshold value corresponding to 30°C
+    ADC1 -> HTR = 1109;
 
     // Low threshold value to be 0
     ADC1 -> LTR = 0;
@@ -142,22 +138,25 @@ void ADC_watchdog_init(void) {
     NVIC_EnableIRQ(ADC_IRQn);
 }
 
-// ADC interrupt handler implementation
+// ADC interrupt handler
 void ADC_IRQHandler(void) {
 
     // Check if AWD flag is set
     if (ADC1 -> SR & ADC_SR_AWD) {
 
+    	// For debug purpose
     	printf("SR value before clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
 
         // Clear the flag before handling the event
         ADC1 -> SR &= ~ADC_SR_AWD;
 
+        // For debug purpose
         printf("SR value after clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
 
         // If ADC value is outside the threshold: turn on the buzzer & LED
+        // Otherwise, ensure buzzer & LED are off state
         uint16_t adc_value = read_ADC();
-        if (adc_value > 1160 || adc_value < 0) {
+        if (adc_value > 1109 || adc_value < 0) {
 
         	// Turn on the buzzer connected to PA5
         	GPIOA -> ODR |= GPIO_ODR_ODR_5;
@@ -174,19 +173,18 @@ void ADC_IRQHandler(void) {
         	GPIOA -> ODR &= GPIO_ODR_ODR_6;
         }
 
-        // Print ADC value when interrupt is triggered
+        // For debug purpose
         printf("ADC value when interrupt is triggered. ADC Value: %lu\n", ADC1->DR);
     }
 
-    // Check if the EOC (End of Conversion) interrupt flag is set
+    // Check if the EOC interrupt flag is set
     if (ADC1->SR & ADC_SR_EOC) {
+
         // Clear the EOC interrupt flag
         ADC1->SR &= ~ADC_SR_EOC;
 
-        // Handle the EOC interrupt if needed
-        // For this example, we don't need to do anything specific for EOC
+        // No specific handling
     }
-
 }
 
 
