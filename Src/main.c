@@ -8,6 +8,7 @@ void ADC_init(void);
 void ADC_watchdog_init(void);
 void start_ADC_conversion(void);
 uint16_t read_ADC(void);
+void I2C_init(void);
 
 int main(void) {
     //SystemInit();
@@ -49,6 +50,44 @@ void GPIO_init(void) {
     // Set PA6 as output for debug LED: bits 13:12 set to 01
     GPIOA -> MODER |= GPIO_MODER_MODER6_0;
     GPIOA -> MODER &= ~(GPIO_MODER_MODER6_1);
+
+    //-----------------------------I2C CONFIG--------------------------------
+
+    // Enable clock for GPIOB
+    RCC -> AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+
+    // Set PB6 & PB7 to alternate function (AF) Mode
+    GPIOB -> MODER &= ~(GPIO_MODER_MODER6);
+    GPIOB -> MODER |= GPIO_MODER_MODER6_1;
+    GPIOB -> MODER &= ~(GPIO_MODER_MODER7);
+    GPIOB -> MODER |= GPIO_MODER_MODER7_1;
+
+    // Set PB6 to AF4 (SCL) and PB7 to AF4 (SDA)
+    GPIOB -> AFR[0] |= (4 << 24)| (4 << 28);
+
+    // Enable pull-up resistors for SCL & SDA lines
+    GPIOB -> PUPDR &= ~(GPIO_PUPDR_PUPDR6 | GPIO_PUPDR_PUPDR7);
+    GPIOB -> PUPDR |= GPIO_PUPDR_PUPDR6_0 | GPIO_PUPDR_PUPDR7_0;
+
+}
+
+// I2C initialization
+void I2C_init(void){
+
+	// Enable clock for I2C connected to APB1
+	RCC -> APB1ENR |= RCC_APB1ENR_I2C1EN;
+
+	// Set the peripheral clock frequency to be the default 16MHz
+	I2C1 -> CR2 = 16;
+
+	// Set SCL frequency to be 100 kHz (Sm mode)
+	I2C1 -> CCR = 80;
+
+	// Set max rise time
+	I2C1 -> TRISE = 17;
+
+	// Enable I2C1 peripheral
+	I2C1 -> CR1 |= I2C_CR1_PE;
 
 }
 
