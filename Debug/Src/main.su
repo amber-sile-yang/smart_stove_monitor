@@ -1,11 +1,2 @@
-../Inc/core_cm4.h:1626:22:NVIC_EnableIRQ	16	static
-../Inc/core_cm4.h:1872:26:ITM_SendChar	16	static,ignoring_inline_asm
-../Src/main.c:12:5:main	16	static
-../Src/main.c:30:6:GPIO_init	4	static
-../Src/main.c:56:6:timer_delay_ms	16	static
-../Src/main.c:80:6:ADC_init	4	static
-../Src/main.c:99:6:start_ADC_conversion	4	static
-../Src/main.c:110:6:ADC_watchdog_init	8	static
-../Src/main.c:142:6:ADC_IRQHandler	16	static
-../Src/main.c:192:10:read_ADC	4	static
-../Src/main.c:204:5:_write	32	static
+../Src/main.c:15:5:main	8	static
+../Src/main.c:39:6:I2C_master_test	16	static

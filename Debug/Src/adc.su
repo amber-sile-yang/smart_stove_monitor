@@ -1,0 +1,7 @@
+../Inc/core_cm4.h:1626:22:NVIC_EnableIRQ	16	static
+../Src/adc.c:13:6:ADC_init	4	static
+../Src/adc.c:32:6:start_ADC_conversion	4	static
+../Src/adc.c:43:6:ADC_watchdog_init	8	static
+../Src/adc.c:75:6:ADC_IRQHandler	16	static
+../Src/adc.c:125:10:read_ADC	4	static
+../Src/adc.c:136:7:read_temp	24	static
