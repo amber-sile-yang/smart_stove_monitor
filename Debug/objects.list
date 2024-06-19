@@ -2,7 +2,6 @@
 "./Src/gpio.o"
 "./Src/helper.o"
 "./Src/i2c.o"
-"./Src/lcd.o"
 "./Src/main.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
