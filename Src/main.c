@@ -6,7 +6,7 @@
 #include "helper.h"
 
 // Default I2C address is 0x27 or 0x3F
-#define LCD_ADDRESS 0x27 << 1
+#define LCD_ADDRESS 0x27
 
 // Function prototypes
 void I2C_master_test(void);
@@ -40,17 +40,14 @@ void I2C_master_test(void){
 
 	// Generate start condition
 	I2C_start();
-	printf("I2C start condition generated. \n");
 
 	// Send dummpy slave address
 	I2C_write_address(LCD_ADDRESS);
-	printf("Slave address sent. \n");
 
 	// Send dummy data
 	uint8_t data = 0xFF;
 	I2C_write_data(data);
-	printf("Dummy data sent. \n");
 
 	// Generate stop condition
-	printf("I2C stop condition generated. \n");
+	I2C_stop();
 }

@@ -133,8 +133,9 @@ uint16_t read_ADC(void) {
 }
 
 // Read temperature
-float read_temp(uint16_t adc_value){
+float read_temp(void){
 
+	uint16_t adc_value = read_ADC();
 	float temperature = (adc_value * 3.3 / 4095.0 - 0.5) * 100.0;
 	return temperature;
 
