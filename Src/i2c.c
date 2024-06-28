@@ -10,35 +10,29 @@
 #include <stdio.h>
 
 
-// I2C initialization
-void I2C_init(void){
-
-	// Enable clock for I2C connected to APB1
-	RCC -> APB1ENR |= RCC_APB1ENR_I2C1EN;
+void I2C_init(void) {
 
     // Reset I2C1
-    RCC -> APB1RSTR |= RCC_APB1RSTR_I2C1RST;
-    RCC -> APB1RSTR &= ~RCC_APB1RSTR_I2C1RST;
+    RCC->APB1RSTR |= RCC_APB1RSTR_I2C1RST;
+    RCC->APB1RSTR &= ~RCC_APB1RSTR_I2C1RST;
+
+    // Set the peripheral clock frequency to be the default 16 MHz
+    I2C1 -> CR2 = 16;
+
+    // Set SCL frequency to be 100 kHz (Sm mode)
+    I2C1 -> CCR = 80;
+
+    // Set max rise time
+    I2C1 -> TRISE = 17;
 
     // Enable ACK
-    I2C1 -> CR1 |= I2C_CR1_ACK;
+    I2C1->CR1 |= I2C_CR1_ACK;
 
-	// Set the peripheral clock frequency to be the default 4MHz
-	//I2C1 -> CR2 = 16;
-    I2C1 -> CR2 = 4;
-
-	// Set SCL frequency to be 100 kHz (Sm mode)
-	//I2C1 -> CCR = 80;
-    I2C1 -> CCR = 20;
-
-	// Set max rise time
-	// I2C1 -> TRISE = 17;
-	I2C1 -> TRISE = 5;
-
-	// Enable I2C1 peripheral
-	I2C1 -> CR1 |= I2C_CR1_PE;
+    // Enable I2C1
+    I2C1->CR1 |= I2C_CR1_PE;
 
 }
+
 
 // I2C start condition
 void I2C_start(void){
@@ -49,18 +43,14 @@ void I2C_start(void){
 	// Keep looping till the SB flag is set (i.e. start condition generated)
 	uint32_t SB_timeout = TIMEOUT;
 	while(!(I2C1 -> SR1 & I2C_SR1_SB)){
-
 		if(--SB_timeout == 0){
-
 			printf("Timeout waiting for SB flag to be set in start condition. \n");
 			return;
-
 		}
 	}
 
 	// Clear SB flag by reading SR1
 	(void)I2C1->SR1;
-
 	printf("Start condition generated. \n");
 
 }
@@ -70,7 +60,6 @@ void I2C_stop(void){
 
 	// Generate a stop condition
 	I2C1 -> CR1 |= I2C_CR1_STOP;
-
 	printf("Stop condition generated. \n");
 
 }
@@ -98,6 +87,8 @@ void I2C_write_address(uint8_t address){
 	// Clear ADDR flag by reading SR1 and SR2
 	(void)I2C1->SR1;
 	(void)I2C1->SR2;
+
+	printf("I2C address sent\n");
 
 }
 
@@ -127,5 +118,7 @@ void I2C_write_data(uint8_t data){
 			return;
 		}
 	}
+
+	printf("I2C data sent: 0x%02X\n", data);
 
 }

@@ -36,8 +36,11 @@ void GPIO_init(void) {
 
     //-----------------------------I2C CONFIG--------------------------------
 
+    // Enable clock for I2C1
+    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
+
     // Enable clock for GPIOB
-    RCC -> AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 
     // Set PB6 & PB7 to alternate function (AF) Mode
     GPIOB -> MODER &= ~(GPIO_MODER_MODER6);
@@ -48,8 +51,12 @@ void GPIO_init(void) {
     // Set PB6 to AF4 (SCL) and PB7 to AF4 (SDA)
     GPIOB -> AFR[0] |= (4 << 24)| (4 << 28);
 
+    // Set PB6 & PB7 output type to be open-drain
+    GPIOB->OTYPER |= (GPIO_OTYPER_OT_6 | GPIO_OTYPER_OT_7);
+
     // Enable pull-up resistors for SCL & SDA lines
     GPIOB -> PUPDR &= ~(GPIO_PUPDR_PUPDR6 | GPIO_PUPDR_PUPDR7);
     GPIOB -> PUPDR |= GPIO_PUPDR_PUPDR6_0 | GPIO_PUPDR_PUPDR7_0;
+
 
 }
