@@ -136,37 +136,12 @@ uint16_t read_ADC(void) {
 
 
 // Read temperature
-float read_temp(void) {
+int read_temp(void) {
     uint16_t adc_value = read_ADC();
-    printf("ADC Value: %d\n", adc_value);
-
-    // Break down the calculation into smaller steps
-    float voltage = adc_value * 3.3 / 4095.0;
-    printf("Voltage: %.2f V\n", voltage);
-
-    float temp_in_celsius = (voltage - 0.5) * 100.0;
-    printf("Intermediate Temperature: %.2f C\n", temp_in_celsius);
-
-    int temp_int = (int)temp_in_celsius; // Convert to integer for simpler debugging
-    printf("Temperature: %d C\n", temp_int);
-
-    return temp_in_celsius;
-}
-
-
-
-// Read temperature using integer arithmetic
-int read_temp_int(void) {
-    uint16_t adc_value = read_ADC();
-    printf("ADC Value: %d\n", adc_value);
-
-    // Convert ADC value to voltage in millivolts
-    int voltage_mv = adc_value * 3300 / 4095;
-    printf("Voltage: %d mV\n", voltage_mv);
-
-    // Convert voltage to temperature in Celsius
-    int temp_celsius = (voltage_mv - 500) * 100 / 1000;
-    printf("Intermediate Temperature: %d C\n", temp_celsius);
-
+    int voltage_mv = adc_value * 3000 / 4095;
+    int temp_celsius = (voltage_mv - 500) / 10;
     return temp_celsius;
 }
+
+
+

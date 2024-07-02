@@ -9,7 +9,7 @@
 #define I2C_H_
 
 #include <stdint.h>
-#define TIMEOUT 100000
+
 
 void I2C_init(void);
 void I2C_start(void);

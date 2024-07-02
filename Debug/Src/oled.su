@@ -1,0 +1,6 @@
+../Src/oled.c:54:6:OLED_send_cmd	16	static
+../Src/oled.c:62:6:OLED_send_data	16	static
+../Src/oled.c:70:6:OLED_init	8	static
+../Src/oled.c:95:6:OLED_clear	16	static
+../Src/oled.c:103:6:OLED_set_cursor	16	static
+../Src/oled.c:111:6:OLED_print_str	24	static

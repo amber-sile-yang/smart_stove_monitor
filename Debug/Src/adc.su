@@ -4,5 +4,4 @@
 ../Src/adc.c:44:6:ADC_watchdog_init	8	static
 ../Src/adc.c:76:6:ADC_IRQHandler	16	static
 ../Src/adc.c:126:10:read_ADC	4	static
-../Src/adc.c:139:7:read_temp	24	static
-../Src/adc.c:159:5:read_temp_int	24	static
+../Src/adc.c:139:5:read_temp	24	static

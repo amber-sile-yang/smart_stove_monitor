@@ -8,6 +8,7 @@
 #include "stm32f4xx.h"
 #include <stdint.h>
 #include <stdio.h>
+#define TIMEOUT 100000
 
 
 void I2C_init(void) {

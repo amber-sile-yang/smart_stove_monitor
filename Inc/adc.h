@@ -14,6 +14,6 @@ void ADC_init(void);
 void ADC_watchdog_init(void);
 void start_ADC_conversion(void);
 uint16_t read_ADC(void);
-int read_temp_int(void);
+int read_temp(void);
 
 #endif /* ADC_H_ */

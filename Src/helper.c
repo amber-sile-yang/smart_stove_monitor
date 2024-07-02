@@ -7,6 +7,7 @@
 #include "helper.h"
 #include "stm32f4xx.h"
 #include <stdint.h>
+#include <stdio.h>
 
 
 
@@ -36,6 +37,7 @@ void timer_delay_ms(uint32_t delay_ms) {
 
 
 
+
 // Redirect printf to ITM
 int _write(int file, char *ptr, int len) {
 
@@ -46,3 +48,12 @@ int _write(int file, char *ptr, int len) {
 
     return len;
 }
+
+
+
+
+void format_temp_str(int temp, char *str) {
+    sprintf(str, " %d C", temp);
+}
+
+

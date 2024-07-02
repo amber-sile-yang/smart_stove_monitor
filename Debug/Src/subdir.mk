@@ -9,8 +9,8 @@ C_SRCS += \
 ../Src/gpio.c \
 ../Src/helper.c \
 ../Src/i2c.c \
-../Src/lcd.c \
 ../Src/main.c \
+../Src/oled.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c 
 
@@ -19,8 +19,8 @@ OBJS += \
 ./Src/gpio.o \
 ./Src/helper.o \
 ./Src/i2c.o \
-./Src/lcd.o \
 ./Src/main.o \
+./Src/oled.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o 
 
@@ -29,8 +29,8 @@ C_DEPS += \
 ./Src/gpio.d \
 ./Src/helper.d \
 ./Src/i2c.d \
-./Src/lcd.d \
 ./Src/main.d \
+./Src/oled.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d 
 
@@ -42,7 +42,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/adc.cyclo ./Src/adc.d ./Src/adc.o ./Src/adc.su ./Src/gpio.cyclo ./Src/gpio.d ./Src/gpio.o ./Src/gpio.su ./Src/helper.cyclo ./Src/helper.d ./Src/helper.o ./Src/helper.su ./Src/i2c.cyclo ./Src/i2c.d ./Src/i2c.o ./Src/i2c.su ./Src/lcd.cyclo ./Src/lcd.d ./Src/lcd.o ./Src/lcd.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+	-$(RM) ./Src/adc.cyclo ./Src/adc.d ./Src/adc.o ./Src/adc.su ./Src/gpio.cyclo ./Src/gpio.d ./Src/gpio.o ./Src/gpio.su ./Src/helper.cyclo ./Src/helper.d ./Src/helper.o ./Src/helper.su ./Src/i2c.cyclo ./Src/i2c.d ./Src/i2c.o ./Src/i2c.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/oled.cyclo ./Src/oled.d ./Src/oled.o ./Src/oled.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
 
 .PHONY: clean-Src
 

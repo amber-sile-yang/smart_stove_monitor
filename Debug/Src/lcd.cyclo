@@ -1,5 +1,0 @@
-../Src/lcd.c:17:6:LCD_init	1
-../Src/lcd.c:39:6:LCD_send_command	1
-../Src/lcd.c:43:6:LCD_send_data	1
-../Src/lcd.c:47:6:LCD_send	1
-../Src/lcd.c:54:6:LCD_write_4bits	1
