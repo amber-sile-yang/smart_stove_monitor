@@ -39,9 +39,8 @@
 #ifndef FONT_H_
 #define FONT_H_
 
+// Define 5x7 font for printable ASCII characters 32-127
 const uint8_t font[96][5] = {
-    // Define 5x7 font for characters 32-127
-    // Only including a few characters for brevity
     {0x00, 0x00, 0x00, 0x00, 0x00}, // Space
     {0x00, 0x00, 0x5F, 0x00, 0x00}, // !
     {0x00, 0x07, 0x00, 0x07, 0x00}, // "

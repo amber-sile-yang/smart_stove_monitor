@@ -35,6 +35,12 @@
 #define OLED_SET_COM_PINS_HW_CONFIG 0xDA
 #define OLED_SET_COM_PINS_HW_CONFIG_SEQUENTIAL 0x12
 
+#define OLED_SET_MEM_ADDR_MODE 0x20
+#define OLED_SET_MEM_ADDR_MODE_PAGE 0x02
+#define OLED_SET_PAGE_START_ADDR_0 0xB0
+#define OLED_SET_LOWER_COL_START_ADDR_DEFAULT 0x00
+#define OLED_SET_HIGHER_COL_START_ADDR_DEFAULT 0x10
+
 #define OLED_SET_CONTRAST_CTRL 0x81
 #define OLED_SET_CONTRAST_CTRL_DEFAULT 0x7F
 
@@ -80,6 +86,12 @@ void OLED_init(void) {
     OLED_send_cmd(OLED_SET_COM_OUTPUT_SCAN_DIRECTION_REMAPPED_MODE);
     OLED_send_cmd(OLED_SET_COM_PINS_HW_CONFIG);
     OLED_send_cmd(OLED_SET_COM_PINS_HW_CONFIG_SEQUENTIAL);
+
+    OLED_send_cmd(OLED_SET_MEM_ADDR_MODE);
+    OLED_send_cmd(OLED_SET_MEM_ADDR_MODE_PAGE);
+    OLED_send_cmd(OLED_SET_LOWER_COL_START_ADDR_DEFAULT);
+    OLED_send_cmd(OLED_SET_HIGHER_COL_START_ADDR_DEFAULT);
+
     OLED_send_cmd(OLED_SET_CONTRAST_CTRL);
     OLED_send_cmd(OLED_SET_CONTRAST_CTRL_DEFAULT);
     OLED_send_cmd(OLED_ENTIRE_DISPLAY_ON);
@@ -92,30 +104,41 @@ void OLED_init(void) {
 
 }
 
+
+// Clear entire display
 void OLED_clear(void) {
+	// Loop through the entire display
     for (uint16_t i = 0; i < OLED_WIDTH * OLED_HEIGHT / 8; i++) {
+    	// Turn the pixel off
         OLED_send_data(0x00);
     }
 }
 
 
-
-void OLED_set_cursor(uint8_t x, uint8_t y) {
-    OLED_send_cmd(0xB0 + y);
-    OLED_send_cmd(((x & 0xF0) >> 4) | 0x10);
-    OLED_send_cmd((x & 0x0F) | 0x01);
-}
-
-
-
 void OLED_print_str(const char* str) {
+	// Loop through all the chars pointed by str till '\0' is reached
     while (*str) {
-        for (uint8_t i = 0; i < 5; i++) { // Assuming 5x7 font
+    	// Loop through 5 columns defined in font array
+        for (uint8_t i = 0; i < 5; i++) {
+
+        	// row 0 of the font array is 'space', which has ASCII number of 32
             OLED_send_data(font[*str - 32][i]);
         }
-        OLED_send_data(0x00); // Space between characters
+        // Add space between each character
+        OLED_send_data(0x00);
         str++;
     }
 }
 
 
+// Set cursor position for where the next data byte will be written
+// Note: GDDRAM has a total of 7 pages with 8 rows & 128 columns per page
+void OLED_set_cursor(uint8_t col, uint8_t page) {
+    OLED_send_cmd(OLED_SET_PAGE_START_ADDR_0 + page);
+
+    // Set higher col start address (higher nibble)
+    OLED_send_cmd(((col & 0xF0) >> 4) | OLED_SET_HIGHER_COL_START_ADDR_DEFAULT);
+
+    // Set lower col start address (lower nibble)
+    OLED_send_cmd((col & 0x0F) | OLED_SET_LOWER_COL_START_ADDR_DEFAULT);
+}

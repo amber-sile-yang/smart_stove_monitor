@@ -50,8 +50,6 @@ int _write(int file, char *ptr, int len) {
 }
 
 
-
-
 void format_temp_str(int temp, char *str) {
     sprintf(str, " %d C", temp);
 }
