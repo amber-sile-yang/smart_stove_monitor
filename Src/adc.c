@@ -72,6 +72,8 @@ void ADC_watchdog_init(void) {
     NVIC_EnableIRQ(ADC_IRQn);
 }
 
+
+/*
 // ADC interrupt handler
 void ADC_IRQHandler(void) {
 
@@ -79,18 +81,18 @@ void ADC_IRQHandler(void) {
     if (ADC1 -> SR & ADC_SR_AWD) {
 
     	// For debug purpose
-    	//printf("SR value before clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
+    	printf("SR value before clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
 
         // Clear the flag before handling the event
         ADC1 -> SR &= ~ADC_SR_AWD;
 
         // For debug purpose
-        //printf("SR value after clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
+        printf("SR value after clearing AWD flag: ADC1->SR = %lu\n", ADC1->SR);
 
         // If ADC value is outside the threshold: turn on the buzzer & LED
         // Otherwise, ensure buzzer & LED are off state
         uint16_t adc_value = read_ADC();
-        if (adc_value > 1109 || adc_value < 0) {
+        if ((adc_value > 1109 || adc_value < 0)) {
 
         	// Turn on the buzzer connected to PA5
         	GPIOA -> ODR |= GPIO_ODR_ODR_5;
@@ -108,7 +110,7 @@ void ADC_IRQHandler(void) {
         }
 
         // For debug purpose
-        //printf("ADC value when interrupt is triggered. ADC Value: %lu\n", ADC1->DR);
+       printf("ADC value when interrupt is triggered. ADC Value: %lu\n", ADC1->DR);
     }
 
     // Check if the EOC interrupt flag is set
@@ -118,6 +120,29 @@ void ADC_IRQHandler(void) {
         ADC1->SR &= ~ADC_SR_EOC;
 
         // No specific handling
+    }
+}
+*/
+
+volatile uint8_t adc_threshold_flag = 0;
+// Optimized ADC interrupt handler
+void ADC_IRQHandler(void) {
+
+    // Check if AWD flag is set
+    if (ADC1 -> SR & ADC_SR_AWD) {
+
+        // Clear the flag before handling the event
+        ADC1 -> SR &= ~ADC_SR_AWD;
+
+        // Set flag to indicate that the ADC value is outside the threshold
+        adc_threshold_flag = 1;
+    }
+
+    // Check if the EOC interrupt flag is set
+    if (ADC1->SR & ADC_SR_EOC) {
+
+        // Clear the EOC interrupt flag
+        ADC1->SR &= ~ADC_SR_EOC;
     }
 }
 

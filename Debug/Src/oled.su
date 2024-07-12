@@ -2,5 +2,5 @@
 ../Src/oled.c:68:6:OLED_send_data	16	static
 ../Src/oled.c:76:6:OLED_init	8	static
 ../Src/oled.c:109:6:OLED_clear	16	static
-../Src/oled.c:118:6:OLED_print_str	24	static
-../Src/oled.c:136:6:OLED_set_cursor	16	static
+../Src/oled.c:132:6:OLED_print_str	24	static
+../Src/oled.c:150:6:OLED_set_cursor	16	static

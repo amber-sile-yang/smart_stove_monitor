@@ -115,6 +115,20 @@ void OLED_clear(void) {
 }
 
 
+
+/*
+void OLED_clear(void) {
+    for (uint8_t page = 0; page < 8; page++) {
+        OLED_set_cursor(0, page);
+        for (uint8_t col = 0; col < 128; col++) {
+            OLED_send_data(0x00);
+        }
+    }
+}
+*/
+
+
+
 void OLED_print_str(const char* str) {
 	// Loop through all the chars pointed by str till '\0' is reached
     while (*str) {

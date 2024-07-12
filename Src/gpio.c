@@ -8,8 +8,6 @@
 
 #include "gpio.h"
 
-
-
 // GPIO initialization
 void GPIO_init(void) {
 

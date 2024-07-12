@@ -2,6 +2,6 @@
 ../Src/adc.c:14:6:ADC_init	1
 ../Src/adc.c:33:6:start_ADC_conversion	1
 ../Src/adc.c:44:6:ADC_watchdog_init	1
-../Src/adc.c:76:6:ADC_IRQHandler	4
-../Src/adc.c:126:10:read_ADC	2
-../Src/adc.c:139:5:read_temp	1
+../Src/adc.c:129:6:ADC_IRQHandler	3
+../Src/adc.c:151:10:read_ADC	2
+../Src/adc.c:164:5:read_temp	1
