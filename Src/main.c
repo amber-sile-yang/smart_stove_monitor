@@ -24,7 +24,7 @@ int main(void) {
 
     SystemInit();
     GPIO_init();
-    // Configure SysTick to generate an interrupt every 1ms
+    // SysTick timer generates an interrupt every 1ms
     SysTick_Config(SystemCoreClock / 1000);
     I2C_init();
     ADC_init();
