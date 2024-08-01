@@ -10,6 +10,59 @@
 #include <stdio.h>
 
 
+volatile uint32_t motion_timer = 0;
+volatile uint32_t sw_press_duration = 0;
+volatile uint8_t system_armed = 1; // System is armed by default
+volatile uint32_t sys_rearm_timer = 0;
+
+
+// Auto-rearm timer for 1 hour (3600,000 ms)
+//#define REARM_THRESHOLD_MS 3600000
+//For test purpose: Auto-rearm timer for 30s (30000 ms)
+#define REARM_THRESHOLD_MS 30000
+
+
+// Configure SysTick timer to generate an interrupt every 1ms
+void SysTick_Init(void) {
+    // Configure SysTick timer to generate an interrupt every 1ms
+    SysTick_Config(SystemCoreClock / 1000);
+}
+
+// SysTick ISR: executes each time SysTick timer expires (interrupt triggered)
+void SysTick_Handler(void) {
+    if (motion_timer > 0) {
+        motion_timer--;
+    }
+
+    // Check if the button connected to PA2 is pressed
+    if (!(GPIOA->IDR & GPIO_IDR_IDR_2)) {
+        sw_press_duration++;
+        // 3s-press to toggle system state
+        if (sw_press_duration >= 3000) {
+            system_armed = !system_armed;
+            // Reset sw_press_duration after each 3s-press
+            sw_press_duration = 0;
+            // Start system re-arm timer if the system is disarmed
+            if (!system_armed) {
+                sys_rearm_timer = REARM_THRESHOLD_MS;
+            } else {
+                sys_rearm_timer = 0;
+            }
+        }
+    } else {
+        sw_press_duration = 0;
+    }
+
+    // Count down REARM_THRESHOLD_MS till 0 to re-arm the system
+    if (sys_rearm_timer > 0) {
+        sys_rearm_timer--;
+        if (sys_rearm_timer == 0 && !system_armed) {
+            system_armed = 1;
+        }
+    }
+}
+
+
 
 // ms delay using timer
 void timer_delay_ms(uint32_t delay_ms) {

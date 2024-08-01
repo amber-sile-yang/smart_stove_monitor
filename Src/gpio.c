@@ -17,7 +17,7 @@ void GPIO_init(void) {
     // Set PA0 as input for motion sensor: bits 1:0 of MODER set to 00
     GPIOA -> MODER &= ~(GPIO_MODER_MODER0);
 
-    // Set PA1 as output for LED: bits 3:2 set to 01
+    // Set PA1 as output for alert LED: bits 3:2 set to 01
     GPIOA -> MODER |= GPIO_MODER_MODER1_0;
     GPIOA -> MODER &= ~(GPIO_MODER_MODER1_1);
 
@@ -31,6 +31,15 @@ void GPIO_init(void) {
     // Set PA6 as output for debug LED: bits 13:12 set to 01
     GPIOA -> MODER |= GPIO_MODER_MODER6_0;
     GPIOA -> MODER &= ~(GPIO_MODER_MODER6_1);
+
+    // Set PA1 as output for status LED
+    GPIOA->MODER |= GPIO_MODER_MODER1_0;
+
+    // Set PA2 as input for tactile switch
+    GPIOA->MODER &= ~GPIO_MODER_MODER2;
+
+    // Enable pull-up resistor on PA2 to ensure initial high state
+    GPIOA->PUPDR |= GPIO_PUPDR_PUPDR2_0;
 
     //-----------------------------I2C CONFIG--------------------------------
 

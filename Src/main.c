@@ -8,24 +8,25 @@
 #include "oled.h"
 
 extern volatile uint8_t adc_threshold_flag;
+extern volatile uint32_t motion_timer;
+// Reset motion timer to 10 minute (600,000 ms)
+//#define NO_MOTION_THRESHOLD_MS 100000;
+// For test purpose: Reset motion timer to 10s (10000 ms)
+#define NO_MOTION_THRESHOLD_MS 10000;
+extern volatile uint32_t sw_press_duration;
+extern volatile uint8_t system_armed;
+extern volatile uint32_t sys_rearm_timer;
 
-// Reset timer to 10 minute (600,000 ms)
-//#define no_motion_threshold_ms 100000;
-// For test purpose: Reset timer to 10s (10000 ms)
-volatile uint32_t motion_timer = 0;
-#define no_motion_threshold_ms 10000;
-void SysTick_Handler(void) {
-    if (motion_timer > 0) {
-        motion_timer--;
-    }
-}
 
 int main(void) {
 
     SystemInit();
     GPIO_init();
-    // SysTick timer generates an interrupt every 1ms
-    SysTick_Config(SystemCoreClock / 1000);
+
+    // Configure SysTick timer to generate an interrupt every 1ms
+    //SysTick_Config(SystemCoreClock / 1000);
+
+    SysTick_Init();
     I2C_init();
     ADC_init();
     ADC_watchdog_init();
@@ -41,8 +42,8 @@ int main(void) {
     OLED_print_str(temp_msg);
 
     while (1) {
-    	// Handle the event when ADC value is outside the threshold
-        if (adc_threshold_flag) {
+    	// Handle the event when ADC value is outside the threshold while the system is armed
+        if (adc_threshold_flag && system_armed) {
         	// Clear the flag after handling
         	adc_threshold_flag = 0;
             uint16_t adc_value = read_ADC();
@@ -55,16 +56,25 @@ int main(void) {
             }
         }
 
+        // Update the status LED based on system state
+        if (system_armed) {
+            GPIOA->ODR |= GPIO_ODR_ODR_1; // Turn on the status LED connected to PA1
+        } else {
+            GPIOA->ODR &= ~GPIO_ODR_ODR_1; // Turn off the status LED connected to PA1
+        }
+
         // If no motion is detected, start counting down from the threshold value
         if (GPIOA->IDR & GPIO_IDR_IDR_0) {
-            motion_timer = no_motion_threshold_ms;
+            motion_timer = NO_MOTION_THRESHOLD_MS;
         }
+
 
         int temp = read_temp();
         char temp_str[16];
         format_temp_str(temp, temp_str);
         OLED_set_cursor(45, 5);
         OLED_print_str(temp_str);
-        timer_delay_ms(1000);
+        timer_delay_ms(500);
     }
 }
+

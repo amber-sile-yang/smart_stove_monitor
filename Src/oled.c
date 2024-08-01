@@ -107,25 +107,17 @@ void OLED_init(void) {
 
 // Clear entire display
 void OLED_clear(void) {
-	// Loop through the entire display
-    for (uint16_t i = 0; i < OLED_WIDTH * OLED_HEIGHT / 8; i++) {
-    	// Turn the pixel off
-        OLED_send_data(0x00);
-    }
-}
-
-
-
-/*
-void OLED_clear(void) {
+    // Loop through each page of the OLED display
     for (uint8_t page = 0; page < 8; page++) {
+        // Set the cursor to column/segment 0 of the current page
         OLED_set_cursor(0, page);
+        // Loop through each column of the current page
         for (uint8_t col = 0; col < 128; col++) {
+            // 0x00 to clear the current column (8 bits)
             OLED_send_data(0x00);
         }
     }
 }
-*/
 
 
 
