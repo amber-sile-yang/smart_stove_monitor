@@ -1,8 +1,8 @@
 ../Inc/core_cm4.h:1698:22:NVIC_SetPriority	2
 ../Inc/core_cm4.h:1830:26:SysTick_Config	2
 ../Inc/core_cm4.h:1872:26:ITM_SendChar	4
-../Src/helper.c:26:6:SysTick_Init	1
-../Src/helper.c:32:6:SysTick_Handler	8
-../Src/helper.c:68:6:timer_delay_ms	2
-../Src/helper.c:95:5:_write	2
-../Src/helper.c:106:6:format_temp_str	1
+../Src/helper.c:24:6:SysTick_Init	1
+../Src/helper.c:30:6:SysTick_Handler	8
+../Src/helper.c:66:6:timer_delay_ms	2
+../Src/helper.c:93:5:_write	2
+../Src/helper.c:104:6:format_temp_str	1

@@ -41,9 +41,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_macro  0000c5e4  00000000  00000000  000243f0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_line   000037f5  00000000  00000000  000309d4  2**0
+ 19 .debug_line   000037f3  00000000  00000000  000309d4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_str    0003c7d5  00000000  00000000  000341c9  2**0
+ 20 .debug_str    0003c7d9  00000000  00000000  000341c7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  21 .debug_frame  000019f0  00000000  00000000  000709a0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1615,8 +1615,8 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  8000f96:	4770      	bx	lr
 
 08000f98 <SysTick_Init>:
-//For test purpose: Auto-rearm timer for 30s (30000 ms)
-#define REARM_THRESHOLD_MS 30000
+//For test purpose: Auto-rearm timer for 20s (20000 ms)
+//#define REARM_THRESHOLD_MS 20000
 
 
 // Configure SysTick timer to generate an interrupt every 1ms
@@ -1646,40 +1646,40 @@ void SysTick_Handler(void) {
  8000fbc:	b480      	push	{r7}
  8000fbe:	af00      	add	r7, sp, #0
     if (motion_timer > 0) {
- 8000fc0:	4b29      	ldr	r3, [pc, #164]	; (8001068 <SysTick_Handler+0xac>)
+ 8000fc0:	4b28      	ldr	r3, [pc, #160]	; (8001064 <SysTick_Handler+0xa8>)
  8000fc2:	681b      	ldr	r3, [r3, #0]
  8000fc4:	2b00      	cmp	r3, #0
  8000fc6:	d004      	beq.n	8000fd2 <SysTick_Handler+0x16>
         motion_timer--;
- 8000fc8:	4b27      	ldr	r3, [pc, #156]	; (8001068 <SysTick_Handler+0xac>)
+ 8000fc8:	4b26      	ldr	r3, [pc, #152]	; (8001064 <SysTick_Handler+0xa8>)
  8000fca:	681b      	ldr	r3, [r3, #0]
  8000fcc:	3b01      	subs	r3, #1
- 8000fce:	4a26      	ldr	r2, [pc, #152]	; (8001068 <SysTick_Handler+0xac>)
+ 8000fce:	4a25      	ldr	r2, [pc, #148]	; (8001064 <SysTick_Handler+0xa8>)
  8000fd0:	6013      	str	r3, [r2, #0]
     }
 
     // Check if the button connected to PA2 is pressed
     if (!(GPIOA->IDR & GPIO_IDR_IDR_2)) {
- 8000fd2:	4b26      	ldr	r3, [pc, #152]	; (800106c <SysTick_Handler+0xb0>)
+ 8000fd2:	4b25      	ldr	r3, [pc, #148]	; (8001068 <SysTick_Handler+0xac>)
  8000fd4:	691b      	ldr	r3, [r3, #16]
  8000fd6:	f003 0304 	and.w	r3, r3, #4
  8000fda:	2b00      	cmp	r3, #0
- 8000fdc:	d126      	bne.n	800102c <SysTick_Handler+0x70>
+ 8000fdc:	d125      	bne.n	800102a <SysTick_Handler+0x6e>
         sw_press_duration++;
- 8000fde:	4b24      	ldr	r3, [pc, #144]	; (8001070 <SysTick_Handler+0xb4>)
+ 8000fde:	4b23      	ldr	r3, [pc, #140]	; (800106c <SysTick_Handler+0xb0>)
  8000fe0:	681b      	ldr	r3, [r3, #0]
  8000fe2:	3301      	adds	r3, #1
- 8000fe4:	4a22      	ldr	r2, [pc, #136]	; (8001070 <SysTick_Handler+0xb4>)
+ 8000fe4:	4a21      	ldr	r2, [pc, #132]	; (800106c <SysTick_Handler+0xb0>)
  8000fe6:	6013      	str	r3, [r2, #0]
         // 3s-press to toggle system state
         if (sw_press_duration >= 3000) {
- 8000fe8:	4b21      	ldr	r3, [pc, #132]	; (8001070 <SysTick_Handler+0xb4>)
+ 8000fe8:	4b20      	ldr	r3, [pc, #128]	; (800106c <SysTick_Handler+0xb0>)
  8000fea:	681b      	ldr	r3, [r3, #0]
  8000fec:	f640 32b7 	movw	r2, #2999	; 0xbb7
  8000ff0:	4293      	cmp	r3, r2
- 8000ff2:	d91e      	bls.n	8001032 <SysTick_Handler+0x76>
+ 8000ff2:	d91d      	bls.n	8001030 <SysTick_Handler+0x74>
             system_armed = !system_armed;
- 8000ff4:	4b1f      	ldr	r3, [pc, #124]	; (8001074 <SysTick_Handler+0xb8>)
+ 8000ff4:	4b1e      	ldr	r3, [pc, #120]	; (8001070 <SysTick_Handler+0xb4>)
  8000ff6:	781b      	ldrb	r3, [r3, #0]
  8000ff8:	b2db      	uxtb	r3, r3
  8000ffa:	2b00      	cmp	r3, #0
@@ -1688,79 +1688,79 @@ void SysTick_Handler(void) {
  8001000:	2300      	movne	r3, #0
  8001002:	b2db      	uxtb	r3, r3
  8001004:	461a      	mov	r2, r3
- 8001006:	4b1b      	ldr	r3, [pc, #108]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001006:	4b1a      	ldr	r3, [pc, #104]	; (8001070 <SysTick_Handler+0xb4>)
  8001008:	701a      	strb	r2, [r3, #0]
             // Reset sw_press_duration after each 3s-press
             sw_press_duration = 0;
- 800100a:	4b19      	ldr	r3, [pc, #100]	; (8001070 <SysTick_Handler+0xb4>)
+ 800100a:	4b18      	ldr	r3, [pc, #96]	; (800106c <SysTick_Handler+0xb0>)
  800100c:	2200      	movs	r2, #0
  800100e:	601a      	str	r2, [r3, #0]
             // Start system re-arm timer if the system is disarmed
             if (!system_armed) {
- 8001010:	4b18      	ldr	r3, [pc, #96]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001010:	4b17      	ldr	r3, [pc, #92]	; (8001070 <SysTick_Handler+0xb4>)
  8001012:	781b      	ldrb	r3, [r3, #0]
  8001014:	b2db      	uxtb	r3, r3
  8001016:	2b00      	cmp	r3, #0
- 8001018:	d104      	bne.n	8001024 <SysTick_Handler+0x68>
+ 8001018:	d103      	bne.n	8001022 <SysTick_Handler+0x66>
                 sys_rearm_timer = REARM_THRESHOLD_MS;
- 800101a:	4b17      	ldr	r3, [pc, #92]	; (8001078 <SysTick_Handler+0xbc>)
- 800101c:	f247 5230 	movw	r2, #30000	; 0x7530
- 8001020:	601a      	str	r2, [r3, #0]
- 8001022:	e006      	b.n	8001032 <SysTick_Handler+0x76>
+ 800101a:	4b16      	ldr	r3, [pc, #88]	; (8001074 <SysTick_Handler+0xb8>)
+ 800101c:	4a16      	ldr	r2, [pc, #88]	; (8001078 <SysTick_Handler+0xbc>)
+ 800101e:	601a      	str	r2, [r3, #0]
+ 8001020:	e006      	b.n	8001030 <SysTick_Handler+0x74>
             } else {
                 sys_rearm_timer = 0;
- 8001024:	4b14      	ldr	r3, [pc, #80]	; (8001078 <SysTick_Handler+0xbc>)
- 8001026:	2200      	movs	r2, #0
- 8001028:	601a      	str	r2, [r3, #0]
- 800102a:	e002      	b.n	8001032 <SysTick_Handler+0x76>
+ 8001022:	4b14      	ldr	r3, [pc, #80]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001024:	2200      	movs	r2, #0
+ 8001026:	601a      	str	r2, [r3, #0]
+ 8001028:	e002      	b.n	8001030 <SysTick_Handler+0x74>
             }
         }
     } else {
         sw_press_duration = 0;
- 800102c:	4b10      	ldr	r3, [pc, #64]	; (8001070 <SysTick_Handler+0xb4>)
- 800102e:	2200      	movs	r2, #0
- 8001030:	601a      	str	r2, [r3, #0]
+ 800102a:	4b10      	ldr	r3, [pc, #64]	; (800106c <SysTick_Handler+0xb0>)
+ 800102c:	2200      	movs	r2, #0
+ 800102e:	601a      	str	r2, [r3, #0]
     }
 
     // Count down REARM_THRESHOLD_MS till 0 to re-arm the system
     if (sys_rearm_timer > 0) {
- 8001032:	4b11      	ldr	r3, [pc, #68]	; (8001078 <SysTick_Handler+0xbc>)
- 8001034:	681b      	ldr	r3, [r3, #0]
- 8001036:	2b00      	cmp	r3, #0
- 8001038:	d010      	beq.n	800105c <SysTick_Handler+0xa0>
+ 8001030:	4b10      	ldr	r3, [pc, #64]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001032:	681b      	ldr	r3, [r3, #0]
+ 8001034:	2b00      	cmp	r3, #0
+ 8001036:	d010      	beq.n	800105a <SysTick_Handler+0x9e>
         sys_rearm_timer--;
- 800103a:	4b0f      	ldr	r3, [pc, #60]	; (8001078 <SysTick_Handler+0xbc>)
- 800103c:	681b      	ldr	r3, [r3, #0]
- 800103e:	3b01      	subs	r3, #1
- 8001040:	4a0d      	ldr	r2, [pc, #52]	; (8001078 <SysTick_Handler+0xbc>)
- 8001042:	6013      	str	r3, [r2, #0]
+ 8001038:	4b0e      	ldr	r3, [pc, #56]	; (8001074 <SysTick_Handler+0xb8>)
+ 800103a:	681b      	ldr	r3, [r3, #0]
+ 800103c:	3b01      	subs	r3, #1
+ 800103e:	4a0d      	ldr	r2, [pc, #52]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001040:	6013      	str	r3, [r2, #0]
         if (sys_rearm_timer == 0 && !system_armed) {
- 8001044:	4b0c      	ldr	r3, [pc, #48]	; (8001078 <SysTick_Handler+0xbc>)
- 8001046:	681b      	ldr	r3, [r3, #0]
- 8001048:	2b00      	cmp	r3, #0
- 800104a:	d107      	bne.n	800105c <SysTick_Handler+0xa0>
- 800104c:	4b09      	ldr	r3, [pc, #36]	; (8001074 <SysTick_Handler+0xb8>)
- 800104e:	781b      	ldrb	r3, [r3, #0]
- 8001050:	b2db      	uxtb	r3, r3
- 8001052:	2b00      	cmp	r3, #0
- 8001054:	d102      	bne.n	800105c <SysTick_Handler+0xa0>
+ 8001042:	4b0c      	ldr	r3, [pc, #48]	; (8001074 <SysTick_Handler+0xb8>)
+ 8001044:	681b      	ldr	r3, [r3, #0]
+ 8001046:	2b00      	cmp	r3, #0
+ 8001048:	d107      	bne.n	800105a <SysTick_Handler+0x9e>
+ 800104a:	4b09      	ldr	r3, [pc, #36]	; (8001070 <SysTick_Handler+0xb4>)
+ 800104c:	781b      	ldrb	r3, [r3, #0]
+ 800104e:	b2db      	uxtb	r3, r3
+ 8001050:	2b00      	cmp	r3, #0
+ 8001052:	d102      	bne.n	800105a <SysTick_Handler+0x9e>
             system_armed = 1;
- 8001056:	4b07      	ldr	r3, [pc, #28]	; (8001074 <SysTick_Handler+0xb8>)
- 8001058:	2201      	movs	r2, #1
- 800105a:	701a      	strb	r2, [r3, #0]
+ 8001054:	4b06      	ldr	r3, [pc, #24]	; (8001070 <SysTick_Handler+0xb4>)
+ 8001056:	2201      	movs	r2, #1
+ 8001058:	701a      	strb	r2, [r3, #0]
         }
     }
 }
- 800105c:	bf00      	nop
- 800105e:	46bd      	mov	sp, r7
- 8001060:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001064:	4770      	bx	lr
- 8001066:	bf00      	nop
- 8001068:	200001f0 	.word	0x200001f0
- 800106c:	40020000 	.word	0x40020000
- 8001070:	200001f4 	.word	0x200001f4
- 8001074:	20000000 	.word	0x20000000
- 8001078:	200001f8 	.word	0x200001f8
+ 800105a:	bf00      	nop
+ 800105c:	46bd      	mov	sp, r7
+ 800105e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001062:	4770      	bx	lr
+ 8001064:	200001f0 	.word	0x200001f0
+ 8001068:	40020000 	.word	0x40020000
+ 800106c:	200001f4 	.word	0x200001f4
+ 8001070:	20000000 	.word	0x20000000
+ 8001074:	200001f8 	.word	0x200001f8
+ 8001078:	0036ee80 	.word	0x0036ee80
 
 0800107c <timer_delay_ms>:
 
@@ -2233,10 +2233,10 @@ void I2C_write_data(uint8_t data){
  8001324:	080047d4 	.word	0x080047d4
 
 08001328 <main>:
-        }
-    }
-}
-*/
+#define NO_MOTION_THRESHOLD_MS 1800000;
+// For test purpose: Reset motion timer to 10s (10000 ms)
+//#define NO_MOTION_THRESHOLD_MS 10000;
+
 
 int main(void) {
  8001328:	b580      	push	{r7, lr}
@@ -2247,10 +2247,6 @@ int main(void) {
  800132e:	f000 fa2b 	bl	8001788 <SystemInit>
     GPIO_init();
  8001332:	f7ff fd2b 	bl	8000d8c <GPIO_init>
-
-    // Configure SysTick timer to generate an interrupt every 1ms
-    //SysTick_Config(SystemCoreClock / 1000);
-
     SysTick_Init();
  8001336:	f7ff fe2f 	bl	8000f98 <SysTick_Init>
     I2C_init();
@@ -2267,10 +2263,10 @@ int main(void) {
  800134e:	f7ff fc6b 	bl	8000c28 <start_ADC_conversion>
 
     const char* msg = "Smart Stove Monitor:)";
- 8001352:	4b3b      	ldr	r3, [pc, #236]	; (8001440 <main+0x118>)
+ 8001352:	4b3a      	ldr	r3, [pc, #232]	; (800143c <main+0x114>)
  8001354:	61fb      	str	r3, [r7, #28]
     const char* temp_msg = "Current Temperature:";
- 8001356:	4b3b      	ldr	r3, [pc, #236]	; (8001444 <main+0x11c>)
+ 8001356:	4b3a      	ldr	r3, [pc, #232]	; (8001440 <main+0x118>)
  8001358:	61bb      	str	r3, [r7, #24]
     OLED_set_cursor(0, 0);
  800135a:	2100      	movs	r1, #0
@@ -2290,19 +2286,19 @@ int main(void) {
     while (1) {
     	// Handle the event when ADC value is outside the threshold while the system is armed
         if (adc_threshold_flag && system_armed) {
- 8001376:	4b34      	ldr	r3, [pc, #208]	; (8001448 <main+0x120>)
+ 8001376:	4b33      	ldr	r3, [pc, #204]	; (8001444 <main+0x11c>)
  8001378:	781b      	ldrb	r3, [r3, #0]
  800137a:	b2db      	uxtb	r3, r3
  800137c:	2b00      	cmp	r3, #0
  800137e:	d02d      	beq.n	80013dc <main+0xb4>
- 8001380:	4b32      	ldr	r3, [pc, #200]	; (800144c <main+0x124>)
+ 8001380:	4b31      	ldr	r3, [pc, #196]	; (8001448 <main+0x120>)
  8001382:	781b      	ldrb	r3, [r3, #0]
  8001384:	b2db      	uxtb	r3, r3
  8001386:	2b00      	cmp	r3, #0
  8001388:	d028      	beq.n	80013dc <main+0xb4>
         	// Clear the flag after handling
         	adc_threshold_flag = 0;
- 800138a:	4b2f      	ldr	r3, [pc, #188]	; (8001448 <main+0x120>)
+ 800138a:	4b2e      	ldr	r3, [pc, #184]	; (8001444 <main+0x11c>)
  800138c:	2200      	movs	r2, #0
  800138e:	701a      	strb	r2, [r3, #0]
             uint16_t adc_value = read_ADC();
@@ -2314,34 +2310,34 @@ int main(void) {
  800139a:	f240 4255 	movw	r2, #1109	; 0x455
  800139e:	4293      	cmp	r3, r2
  80013a0:	d910      	bls.n	80013c4 <main+0x9c>
- 80013a2:	4b2b      	ldr	r3, [pc, #172]	; (8001450 <main+0x128>)
+ 80013a2:	4b2a      	ldr	r3, [pc, #168]	; (800144c <main+0x124>)
  80013a4:	681b      	ldr	r3, [r3, #0]
  80013a6:	2b00      	cmp	r3, #0
  80013a8:	d10c      	bne.n	80013c4 <main+0x9c>
                 GPIOA -> ODR |= GPIO_ODR_ODR_5;  // Turn on the buzzer connected to PA5
- 80013aa:	4b2a      	ldr	r3, [pc, #168]	; (8001454 <main+0x12c>)
+ 80013aa:	4b29      	ldr	r3, [pc, #164]	; (8001450 <main+0x128>)
  80013ac:	695b      	ldr	r3, [r3, #20]
- 80013ae:	4a29      	ldr	r2, [pc, #164]	; (8001454 <main+0x12c>)
+ 80013ae:	4a28      	ldr	r2, [pc, #160]	; (8001450 <main+0x128>)
  80013b0:	f043 0320 	orr.w	r3, r3, #32
  80013b4:	6153      	str	r3, [r2, #20]
                 GPIOA -> ODR |= GPIO_ODR_ODR_6;  // Turn the LED connected to PA6
- 80013b6:	4b27      	ldr	r3, [pc, #156]	; (8001454 <main+0x12c>)
+ 80013b6:	4b26      	ldr	r3, [pc, #152]	; (8001450 <main+0x128>)
  80013b8:	695b      	ldr	r3, [r3, #20]
- 80013ba:	4a26      	ldr	r2, [pc, #152]	; (8001454 <main+0x12c>)
+ 80013ba:	4a25      	ldr	r2, [pc, #148]	; (8001450 <main+0x128>)
  80013bc:	f043 0340 	orr.w	r3, r3, #64	; 0x40
  80013c0:	6153      	str	r3, [r2, #20]
  80013c2:	e00b      	b.n	80013dc <main+0xb4>
             } else {
                 GPIOA -> ODR &= ~GPIO_ODR_ODR_5; // Turn off the buzzer connected to PA5
- 80013c4:	4b23      	ldr	r3, [pc, #140]	; (8001454 <main+0x12c>)
+ 80013c4:	4b22      	ldr	r3, [pc, #136]	; (8001450 <main+0x128>)
  80013c6:	695b      	ldr	r3, [r3, #20]
- 80013c8:	4a22      	ldr	r2, [pc, #136]	; (8001454 <main+0x12c>)
+ 80013c8:	4a21      	ldr	r2, [pc, #132]	; (8001450 <main+0x128>)
  80013ca:	f023 0320 	bic.w	r3, r3, #32
  80013ce:	6153      	str	r3, [r2, #20]
                 GPIOA -> ODR &= ~GPIO_ODR_ODR_6; // Turn off the LED connected to PA6
- 80013d0:	4b20      	ldr	r3, [pc, #128]	; (8001454 <main+0x12c>)
+ 80013d0:	4b1f      	ldr	r3, [pc, #124]	; (8001450 <main+0x128>)
  80013d2:	695b      	ldr	r3, [r3, #20]
- 80013d4:	4a1f      	ldr	r2, [pc, #124]	; (8001454 <main+0x12c>)
+ 80013d4:	4a1e      	ldr	r2, [pc, #120]	; (8001450 <main+0x128>)
  80013d6:	f023 0340 	bic.w	r3, r3, #64	; 0x40
  80013da:	6153      	str	r3, [r2, #20]
             }
@@ -2349,70 +2345,70 @@ int main(void) {
 
         // Update the status LED based on system state
         if (system_armed) {
- 80013dc:	4b1b      	ldr	r3, [pc, #108]	; (800144c <main+0x124>)
+ 80013dc:	4b1a      	ldr	r3, [pc, #104]	; (8001448 <main+0x120>)
  80013de:	781b      	ldrb	r3, [r3, #0]
  80013e0:	b2db      	uxtb	r3, r3
  80013e2:	2b00      	cmp	r3, #0
  80013e4:	d006      	beq.n	80013f4 <main+0xcc>
             GPIOA->ODR |= GPIO_ODR_ODR_1; // Turn on the status LED connected to PA1
- 80013e6:	4b1b      	ldr	r3, [pc, #108]	; (8001454 <main+0x12c>)
+ 80013e6:	4b1a      	ldr	r3, [pc, #104]	; (8001450 <main+0x128>)
  80013e8:	695b      	ldr	r3, [r3, #20]
- 80013ea:	4a1a      	ldr	r2, [pc, #104]	; (8001454 <main+0x12c>)
+ 80013ea:	4a19      	ldr	r2, [pc, #100]	; (8001450 <main+0x128>)
  80013ec:	f043 0302 	orr.w	r3, r3, #2
  80013f0:	6153      	str	r3, [r2, #20]
  80013f2:	e005      	b.n	8001400 <main+0xd8>
         } else {
             GPIOA->ODR &= ~GPIO_ODR_ODR_1; // Turn off the status LED connected to PA1
- 80013f4:	4b17      	ldr	r3, [pc, #92]	; (8001454 <main+0x12c>)
+ 80013f4:	4b16      	ldr	r3, [pc, #88]	; (8001450 <main+0x128>)
  80013f6:	695b      	ldr	r3, [r3, #20]
- 80013f8:	4a16      	ldr	r2, [pc, #88]	; (8001454 <main+0x12c>)
+ 80013f8:	4a15      	ldr	r2, [pc, #84]	; (8001450 <main+0x128>)
  80013fa:	f023 0302 	bic.w	r3, r3, #2
  80013fe:	6153      	str	r3, [r2, #20]
         }
 
         // If no motion is detected, start counting down from the threshold value
         if (GPIOA->IDR & GPIO_IDR_IDR_0) {
- 8001400:	4b14      	ldr	r3, [pc, #80]	; (8001454 <main+0x12c>)
+ 8001400:	4b13      	ldr	r3, [pc, #76]	; (8001450 <main+0x128>)
  8001402:	691b      	ldr	r3, [r3, #16]
  8001404:	f003 0301 	and.w	r3, r3, #1
  8001408:	2b00      	cmp	r3, #0
- 800140a:	d003      	beq.n	8001414 <main+0xec>
+ 800140a:	d002      	beq.n	8001412 <main+0xea>
             motion_timer = NO_MOTION_THRESHOLD_MS;
- 800140c:	4b10      	ldr	r3, [pc, #64]	; (8001450 <main+0x128>)
- 800140e:	f242 7210 	movw	r2, #10000	; 0x2710
- 8001412:	601a      	str	r2, [r3, #0]
+ 800140c:	4b0f      	ldr	r3, [pc, #60]	; (800144c <main+0x124>)
+ 800140e:	4a11      	ldr	r2, [pc, #68]	; (8001454 <main+0x12c>)
+ 8001410:	601a      	str	r2, [r3, #0]
         }
 
 
         int temp = read_temp();
- 8001414:	f7ff fc92 	bl	8000d3c <read_temp>
- 8001418:	6138      	str	r0, [r7, #16]
+ 8001412:	f7ff fc93 	bl	8000d3c <read_temp>
+ 8001416:	6138      	str	r0, [r7, #16]
         char temp_str[16];
         format_temp_str(temp, temp_str);
- 800141a:	463b      	mov	r3, r7
- 800141c:	4619      	mov	r1, r3
- 800141e:	6938      	ldr	r0, [r7, #16]
- 8001420:	f7ff fe84 	bl	800112c <format_temp_str>
+ 8001418:	463b      	mov	r3, r7
+ 800141a:	4619      	mov	r1, r3
+ 800141c:	6938      	ldr	r0, [r7, #16]
+ 800141e:	f7ff fe85 	bl	800112c <format_temp_str>
         OLED_set_cursor(45, 5);
- 8001424:	2105      	movs	r1, #5
- 8001426:	202d      	movs	r0, #45	; 0x2d
- 8001428:	f000 f8e2 	bl	80015f0 <OLED_set_cursor>
+ 8001422:	2105      	movs	r1, #5
+ 8001424:	202d      	movs	r0, #45	; 0x2d
+ 8001426:	f000 f8e3 	bl	80015f0 <OLED_set_cursor>
         OLED_print_str(temp_str);
- 800142c:	463b      	mov	r3, r7
- 800142e:	4618      	mov	r0, r3
- 8001430:	f000 f8b0 	bl	8001594 <OLED_print_str>
+ 800142a:	463b      	mov	r3, r7
+ 800142c:	4618      	mov	r0, r3
+ 800142e:	f000 f8b1 	bl	8001594 <OLED_print_str>
         timer_delay_ms(500);
- 8001434:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
- 8001438:	f7ff fe20 	bl	800107c <timer_delay_ms>
+ 8001432:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
+ 8001436:	f7ff fe21 	bl	800107c <timer_delay_ms>
     while (1) {
- 800143c:	e79b      	b.n	8001376 <main+0x4e>
- 800143e:	bf00      	nop
- 8001440:	080047ec 	.word	0x080047ec
- 8001444:	08004804 	.word	0x08004804
- 8001448:	200001ec 	.word	0x200001ec
- 800144c:	20000000 	.word	0x20000000
- 8001450:	200001f0 	.word	0x200001f0
- 8001454:	40020000 	.word	0x40020000
+ 800143a:	e79c      	b.n	8001376 <main+0x4e>
+ 800143c:	080047ec 	.word	0x080047ec
+ 8001440:	08004804 	.word	0x08004804
+ 8001444:	200001ec 	.word	0x200001ec
+ 8001448:	20000000 	.word	0x20000000
+ 800144c:	200001f0 	.word	0x200001f0
+ 8001450:	40020000 	.word	0x40020000
+ 8001454:	001b7740 	.word	0x001b7740
 
 08001458 <OLED_send_cmd>:
 

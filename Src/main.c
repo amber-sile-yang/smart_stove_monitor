@@ -9,23 +9,17 @@
 
 extern volatile uint8_t adc_threshold_flag;
 extern volatile uint32_t motion_timer;
-// Reset motion timer to 10 minute (600,000 ms)
-//#define NO_MOTION_THRESHOLD_MS 100000;
-// For test purpose: Reset motion timer to 10s (10000 ms)
-#define NO_MOTION_THRESHOLD_MS 10000;
-extern volatile uint32_t sw_press_duration;
 extern volatile uint8_t system_armed;
-extern volatile uint32_t sys_rearm_timer;
+// Reset motion timer to 30 minute (1800000 ms)
+#define NO_MOTION_THRESHOLD_MS 1800000;
+// For test purpose: Reset motion timer to 10s (10000 ms)
+//#define NO_MOTION_THRESHOLD_MS 10000;
 
 
 int main(void) {
 
     SystemInit();
     GPIO_init();
-
-    // Configure SysTick timer to generate an interrupt every 1ms
-    //SysTick_Config(SystemCoreClock / 1000);
-
     SysTick_Init();
     I2C_init();
     ADC_init();

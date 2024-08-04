@@ -14,12 +14,10 @@ volatile uint32_t motion_timer = 0;
 volatile uint32_t sw_press_duration = 0;
 volatile uint8_t system_armed = 1; // System is armed by default
 volatile uint32_t sys_rearm_timer = 0;
-
-
 // Auto-rearm timer for 1 hour (3600,000 ms)
-//#define REARM_THRESHOLD_MS 3600000
-//For test purpose: Auto-rearm timer for 30s (30000 ms)
-#define REARM_THRESHOLD_MS 30000
+#define REARM_THRESHOLD_MS 3600000
+//For test purpose: Auto-rearm timer for 20s (20000 ms)
+//#define REARM_THRESHOLD_MS 20000
 
 
 // Configure SysTick timer to generate an interrupt every 1ms
